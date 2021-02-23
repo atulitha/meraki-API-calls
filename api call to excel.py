@@ -9,7 +9,6 @@ if __name__ == "__main__":
     device = networks
     outlist = []
     outlist2 = []
-
     for network in networks:
         print(network)
         try:
@@ -29,18 +28,13 @@ if __name__ == "__main__":
                 for i in x:
                     i.update({'Given_id': network})
                     outlist2.append(i)
-
-
                 outlist += outlist2
         except Exception as e:
             print(e, "\ndevice is :", network)
             with open("errordevices.txt", "w") as ed:
                 ed.writelines(["this is failed: \n", network, "\n", "-" * 10])
                 outlist.append({'Given_id': network, "Error": 'this has failed'})
-
-
     print(outlist)
-
     df = pd.json_normalize([i for i in outlist])
     df.set_index('Given_id')
     df.to_excel('output.xlsx', index= True, header=True, engine='openpyxl',)
